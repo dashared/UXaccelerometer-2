@@ -13,7 +13,6 @@
 		1227E1F5242E103300D95B05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1227E1F4242E103300D95B05 /* Assets.xcassets */; };
 		1227E1F8242E103300D95B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1227E1F6242E103300D95B05 /* LaunchScreen.storyboard */; };
 		5BF21350242E1370009AEED4 /* Accelerometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF2134F242E1370009AEED4 /* Accelerometer.swift */; };
-		5BF21355242E15C3009AEED4 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF21354242E15C3009AEED4 /* AppController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +24,6 @@
 		1227E1F7242E103300D95B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1227E1F9242E103300D95B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BF2134F242E1370009AEED4 /* Accelerometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accelerometer.swift; sourceTree = "<group>"; };
-		5BF21354242E15C3009AEED4 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +58,6 @@
 			children = (
 				5BF21353242E15B3009AEED4 /* Controller */,
 				1227E1EB242E102E00D95B05 /* AppDelegate.swift */,
-				1227E1EF242E102E00D95B05 /* ViewController.swift */,
 				1227E1F1242E102E00D95B05 /* Main.storyboard */,
 				1227E1F4242E103300D95B05 /* Assets.xcassets */,
 				1227E1F6242E103300D95B05 /* LaunchScreen.storyboard */,
@@ -73,7 +70,7 @@
 		5BF21353242E15B3009AEED4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5BF21354242E15C3009AEED4 /* AppController.swift */,
+				1227E1EF242E102E00D95B05 /* ViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -152,7 +149,6 @@
 				5BF21350242E1370009AEED4 /* Accelerometer.swift in Sources */,
 				1227E1F0242E102E00D95B05 /* ViewController.swift in Sources */,
 				1227E1EC242E102E00D95B05 /* AppDelegate.swift in Sources */,
-				5BF21355242E15C3009AEED4 /* AppController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
