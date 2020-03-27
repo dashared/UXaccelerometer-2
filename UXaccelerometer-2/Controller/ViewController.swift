@@ -19,6 +19,20 @@ enum SessionState {
 
 class ViewController: UIViewController {
     
+    // MARK: - IBAOutlets
+    
+    @IBOutlet weak var sessionLabel: UILabel? {
+        didSet {
+            sessionLabel?.text = UIConstants.noOneIsAround
+        }
+    }
+    
+    @IBOutlet weak var sessionButton: UIButton? {
+        didSet {
+            sessionButton?.titleLabel?.text = UIConstants.tapToStart
+        }
+    }
+    
     // MARK: - Properties
     
     var peerID: MCPeerID = MCPeerID(displayName: UIDevice.current.name)
@@ -30,10 +44,6 @@ class ViewController: UIViewController {
             setupState()
         }
     }
-    
-    // MARK: - Views
-    
-    
 
     // MARK: - Lifecycle
     
@@ -57,9 +67,9 @@ class ViewController: UIViewController {
     
     func setupNavigationBar() {
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Host", style: .plain, target: self, action: #selector(hostSession))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: UIConstants.host, style: .plain, target: self, action: #selector(hostSession))
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Join", style: .plain, target: self, action: #selector(joinSession))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: UIConstants.join, style: .plain, target: self, action: #selector(joinSession))
     }
     
     func setupState() {
@@ -67,15 +77,36 @@ class ViewController: UIViewController {
         switch sessionState {
             
         case .notconnected:
-            print("no one around")
+            sessionLabel?.text = UIConstants.noOneIsAround
+            sessionButton?.isHidden = true
         case .hosting:
-            print("hosting...")
+            sessionLabel?.text = UIConstants.connecting
         case .connected(let name):
-            print("\(name) we connected")
-        case .started(let name):
-            print("\(name) we started sending data")
+            sessionLabel?.text = "Connected to \(name)"
+            sessionButton?.isHidden = false
+            sessionButton?.titleLabel?.text = UIConstants.tapToStart
+        case .started(_):
+            sessionButton?.titleLabel?.text = UIConstants.tapToStop
         }
     }
+    
+    /// TODO: - Add logic
+    @IBAction func controlSession(_ sender: UIButton) {
+        
+        
+        switch sessionState {
+        case .started(let name):
+            sessionState = .connected(name)
+            // add
+        case .connected(let name):
+            sessionState = .started(name)
+            // add
+        default:
+            print("WTF")
+        }
+        
+    }
+    
 
     
     // MARK: - Join/host
@@ -86,11 +117,11 @@ class ViewController: UIViewController {
         switch sessionState {
             
         case .notconnected:
-            navigationItem.rightBarButtonItem?.title = "Stop"
+            navigationItem.rightBarButtonItem?.title = UIConstants.stopHosting
             sessionState = .hosting
             mcAdvertiserAssistant?.start()
         default:
-            navigationItem.rightBarButtonItem?.title = "Host"
+            navigationItem.rightBarButtonItem?.title = UIConstants.host
             sessionState = .notconnected
             mcAdvertiserAssistant?.stop()
         }
@@ -161,5 +192,17 @@ extension ViewController {
     
     enum Constants {
         static let serviceType = "ba-td"
+    }
+    
+    enum UIConstants {
+        static let tapToStart = "Tap to start"
+        static let tapToStop = "Tap to stop"
+        
+        static let host = "Host"
+        static let stopHosting = "Stop"
+        static let join = "Join"
+        
+        static let noOneIsAround = "No one is around"
+        static let connecting = "Connecting..."
     }
 }
