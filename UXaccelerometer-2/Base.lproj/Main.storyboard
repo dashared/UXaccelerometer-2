@@ -15,8 +15,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="WRR-Am-u8a">
-                                <rect key="frame" x="150.5" y="441" width="113" height="68.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="WRR-Am-u8a">
+                                <rect key="frame" x="150.5" y="391.5" width="113" height="167"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No one around" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byb-9c-1QS">
                                         <rect key="frame" x="0.0" y="0.0" width="113" height="20.5"/>
@@ -25,7 +25,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vBd-T7-Ez3">
-                                        <rect key="frame" x="0.0" y="35.5" width="113" height="33"/>
+                                        <rect key="frame" x="0.0" y="38.5" width="113" height="33"/>
                                         <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <state key="normal" title="Button">
@@ -35,6 +35,29 @@
                                             <action selector="controlSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZMK-Nz-BM6"/>
                                         </connections>
                                     </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hvv-22-U4M">
+                                        <rect key="frame" x="0.0" y="89.5" width="113" height="77.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x = 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEA-Vi-Emn">
+                                                <rect key="frame" x="37.5" y="0.0" width="38.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="y = 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Abv-5J-o9d">
+                                                <rect key="frame" x="37" y="28.5" width="39" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="z = 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhG-OC-Igy">
+                                                <rect key="frame" x="37" y="57" width="39" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -47,8 +70,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="Accelerometer keyboard" id="lkb-fj-ft5"/>
                     <connections>
+                        <outlet property="coordinatesStack" destination="hvv-22-U4M" id="mC2-xj-fIw"/>
                         <outlet property="sessionButton" destination="vBd-T7-Ez3" id="lwb-u6-r4v"/>
                         <outlet property="sessionLabel" destination="Byb-9c-1QS" id="wk5-4z-mjg"/>
+                        <outlet property="xLabel" destination="zEA-Vi-Emn" id="xMR-gP-hkv"/>
+                        <outlet property="yLabel" destination="Abv-5J-o9d" id="ACv-1B-IFG"/>
+                        <outlet property="zLabel" destination="vhG-OC-Igy" id="ITx-G9-4qS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

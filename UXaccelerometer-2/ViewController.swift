@@ -34,6 +34,14 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var coordinatesStack: UIStackView?
+    
+    @IBOutlet weak var xLabel: UILabel?
+    
+    @IBOutlet weak var yLabel: UILabel?
+    
+    @IBOutlet weak var zLabel: UILabel?
+    
     // MARK: - Properties
     
     var peerID: MCPeerID = MCPeerID(displayName: UIDevice.current.name)
@@ -82,13 +90,16 @@ class ViewController: UIViewController {
         case .notconnected:
             sessionLabel?.text = UIConstants.noOneIsAround
             sessionButton?.isHidden = true
+            coordinatesStack?.isHidden = true
         case .hosting:
             sessionLabel?.text = UIConstants.connecting
         case .connected(let name):
             sessionLabel?.text = "Connected to \(name)"
             sessionButton?.isHidden = false
+            coordinatesStack?.isHidden = false
             sessionButton?.setTitle(UIConstants.tapToStart, for: .normal)
         case .started(_):
+            // TODO: - show values for x y z
             sessionButton?.setTitle(UIConstants.tapToStop, for: .normal)
         }
     }
