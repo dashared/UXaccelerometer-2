@@ -9,6 +9,14 @@
 import UIKit
 import MultipeerConnectivity
 
+
+enum SessionState {
+    case notconnected
+    case connected(String)
+    case hosting
+    case started(String)
+}
+
 class ViewController: UIViewController {
     
     // MARK: - Properties
@@ -16,6 +24,16 @@ class ViewController: UIViewController {
     var peerID: MCPeerID = MCPeerID(displayName: UIDevice.current.name)
     var mcSession: MCSession?
     var mcAdvertiserAssistant: MCAdvertiserAssistant?
+    
+    var sessionState: SessionState = .notconnected {
+        didSet {
+            setupState()
+        }
+    }
+    
+    // MARK: - Views
+    
+    
 
     // MARK: - Lifecycle
     
@@ -25,6 +43,7 @@ class ViewController: UIViewController {
         
         setupSession()
         setupNavigationBar()
+        setupState()
     }
     
     // MARK: - Setup
@@ -42,12 +61,39 @@ class ViewController: UIViewController {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Join", style: .plain, target: self, action: #selector(joinSession))
     }
+    
+    func setupState() {
+        
+        switch sessionState {
+            
+        case .notconnected:
+            print("no one around")
+        case .hosting:
+            print("hosting...")
+        case .connected(let name):
+            print("\(name) we connected")
+        case .started(let name):
+            print("\(name) we started sending data")
+        }
+    }
 
     
     // MARK: - Join/host
     
+    /// Switch button state
     @objc func hostSession() {
-        self.mcAdvertiserAssistant?.start()
+        
+        switch sessionState {
+            
+        case .notconnected:
+            navigationItem.rightBarButtonItem?.title = "Stop"
+            sessionState = .hosting
+            mcAdvertiserAssistant?.start()
+        default:
+            navigationItem.rightBarButtonItem?.title = "Host"
+            sessionState = .notconnected
+            mcAdvertiserAssistant?.stop()
+        }
     }
 
     @objc func joinSession() {
@@ -66,12 +112,14 @@ extension ViewController: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
         case MCSessionState.connected:
+            sessionState = .connected(peerID.displayName)
             print("Connected: \(peerID.displayName)")
             
         case MCSessionState.connecting:
             print("Connecting: \(peerID.displayName)")
             
         default:
+            sessionState = .notconnected
             print("Not Connected")
         }
     }
