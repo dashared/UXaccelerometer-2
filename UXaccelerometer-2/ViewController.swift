@@ -29,7 +29,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var sessionButton: UIButton? {
         didSet {
-            sessionButton?.titleLabel?.text = UIConstants.tapToStart
+            sessionButton?.layer.cornerRadius = 10
+            sessionButton?.setTitle(UIConstants.tapToStart, for: .normal)
         }
     }
     
@@ -41,7 +42,9 @@ class ViewController: UIViewController {
     
     var sessionState: SessionState = .notconnected {
         didSet {
-            setupState()
+            DispatchQueue.main.async {
+                self.setupState()
+            }
         }
     }
 
@@ -84,9 +87,9 @@ class ViewController: UIViewController {
         case .connected(let name):
             sessionLabel?.text = "Connected to \(name)"
             sessionButton?.isHidden = false
-            sessionButton?.titleLabel?.text = UIConstants.tapToStart
+            sessionButton?.setTitle(UIConstants.tapToStart, for: .normal)
         case .started(_):
-            sessionButton?.titleLabel?.text = UIConstants.tapToStop
+            sessionButton?.setTitle(UIConstants.tapToStop, for: .normal)
         }
     }
     
