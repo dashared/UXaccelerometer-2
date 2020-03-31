@@ -60,7 +60,7 @@ class Accelerometer {
     
 }
 
-protocol DataTransfer {
+protocol DataTransfer: class {
     func sendCoordinates()
 }
 
