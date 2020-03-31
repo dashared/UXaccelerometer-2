@@ -17,7 +17,7 @@ enum SessionState {
     case started(String)
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, DataTransfer {
     
     // MARK: - IBAOutlets
     
@@ -47,6 +47,7 @@ class ViewController: UIViewController {
     var peerID: MCPeerID = MCPeerID(displayName: UIDevice.current.name)
     var mcSession: MCSession?
     var mcAdvertiserAssistant: MCAdvertiserAssistant?
+    var accelerometer = Accelerometer.shared
     
     var sessionState: SessionState = .notconnected {
         didSet {
@@ -65,6 +66,7 @@ class ViewController: UIViewController {
         setupSession()
         setupNavigationBar()
         setupState()
+        accelerometer.controller = self
     }
     
     // MARK: - Setup
@@ -91,6 +93,7 @@ class ViewController: UIViewController {
             sessionLabel?.text = UIConstants.noOneIsAround
             sessionButton?.isHidden = true
             coordinatesStack?.isHidden = true
+            accelerometer.stopAccelerometer()
         case .hosting:
             sessionLabel?.text = UIConstants.connecting
         case .connected(let name):
@@ -99,22 +102,38 @@ class ViewController: UIViewController {
             coordinatesStack?.isHidden = false
             sessionButton?.setTitle(UIConstants.tapToStart, for: .normal)
         case .started(_):
-            // TODO: - show values for x y z
             sessionButton?.setTitle(UIConstants.tapToStop, for: .normal)
         }
     }
     
-    /// TODO: - Add logic
+    func sendCoordinates() {
+        if mcSession!.connectedPeers.count > 0 {
+            do {
+                let data = Data(accelerometer.convertToString().utf8)
+                try mcSession!.send(data, toPeers: mcSession!.connectedPeers, with: .reliable)
+            } catch {
+                print("Error connecting...")
+            }
+        }
+        updateLabels()
+    }
+    
+    func updateLabels() {
+        xLabel?.text = "x = \(accelerometer.x)"
+        yLabel?.text = "y = \(accelerometer.y)"
+        zLabel?.text = "z = \(accelerometer.z)"
+    }
+    
     @IBAction func controlSession(_ sender: UIButton) {
         
         
         switch sessionState {
         case .started(let name):
             sessionState = .connected(name)
-            // add
+            accelerometer.stopAccelerometer()
         case .connected(let name):
             sessionState = .started(name)
-            // add
+            accelerometer.startAccelerometers()
         default:
             print("WTF")
         }
@@ -170,13 +189,14 @@ extension ViewController: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        
+        /// just for debug of sending data
+        print(String(data: data, encoding: .utf8) ?? "error")
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
         
     }
-    
+
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
         
     }

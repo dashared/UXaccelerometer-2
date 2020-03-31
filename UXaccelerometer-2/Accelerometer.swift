@@ -9,7 +9,7 @@
 import Foundation
 import CoreMotion
 
-class Accelerometer : ObservableObject {
+class Accelerometer {
     
     static let shared = Accelerometer()
     
@@ -19,6 +19,8 @@ class Accelerometer : ObservableObject {
     var x : Double = 0.0
     var y : Double = 0.0
     var z : Double = 0.0
+    
+    var controller : DataTransfer? = nil
 
     private let interval = 0.1
     
@@ -35,6 +37,7 @@ class Accelerometer : ObservableObject {
                 self.x = data.acceleration.x
                 self.y = data.acceleration.y
                 self.z = data.acceleration.z
+                self.controller?.sendCoordinates()
              }
           })
 
@@ -44,6 +47,20 @@ class Accelerometer : ObservableObject {
     
     func stopAccelerometer() {
         self.motion.stopAccelerometerUpdates()
+        self.x = 0.0
+        self.y = 0.0
+        self.z = 0.0
     }
     
+    func convertToString() -> String {
+        /// TODO: should discuss format string with boys
+        return "\(self.x) \n\(self.y) \n\(self.z)"
+    }
+    
+    
 }
+
+protocol DataTransfer: class {
+    func sendCoordinates()
+}
+
