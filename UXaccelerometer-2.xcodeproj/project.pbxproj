@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,8 @@
 		1227E1F3242E102E00D95B05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1227E1F1242E102E00D95B05 /* Main.storyboard */; };
 		1227E1F5242E103300D95B05 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1227E1F4242E103300D95B05 /* Assets.xcassets */; };
 		1227E1F8242E103300D95B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1227E1F6242E103300D95B05 /* LaunchScreen.storyboard */; };
+		12CB3ED9243731E200C9B5E4 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 12CB3ED8243731E200C9B5E4 /* SocketIO */; };
+		12CB3EDC243733A400C9B5E4 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CB3EDB243733A400C9B5E4 /* SocketIOManager.swift */; };
 		5BF21350242E1370009AEED4 /* Accelerometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF2134F242E1370009AEED4 /* Accelerometer.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,7 @@
 		1227E1F4242E103300D95B05 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1227E1F7242E103300D95B05 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1227E1F9242E103300D95B05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		12CB3EDB243733A400C9B5E4 /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
 		5BF2134F242E1370009AEED4 /* Accelerometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accelerometer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12CB3ED9243731E200C9B5E4 /* SocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +60,7 @@
 		1227E1EA242E102E00D95B05 /* UXaccelerometer-2 */ = {
 			isa = PBXGroup;
 			children = (
+				12CB3EDA2437337B00C9B5E4 /* Socket */,
 				1227E1EB242E102E00D95B05 /* AppDelegate.swift */,
 				1227E1EF242E102E00D95B05 /* ViewController.swift */,
 				1227E1F1242E102E00D95B05 /* Main.storyboard */,
@@ -65,6 +70,14 @@
 				5BF2134F242E1370009AEED4 /* Accelerometer.swift */,
 			);
 			path = "UXaccelerometer-2";
+			sourceTree = "<group>";
+		};
+		12CB3EDA2437337B00C9B5E4 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				12CB3EDB243733A400C9B5E4 /* SocketIOManager.swift */,
+			);
+			path = Socket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +96,9 @@
 			dependencies = (
 			);
 			name = "UXaccelerometer-2";
+			packageProductDependencies = (
+				12CB3ED8243731E200C9B5E4 /* SocketIO */,
+			);
 			productName = "UXaccelerometer-2";
 			productReference = 1227E1E8242E102E00D95B05 /* UXaccelerometer-2.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +127,9 @@
 				Base,
 			);
 			mainGroup = 1227E1DF242E102E00D95B05;
+			packageReferences = (
+				12CB3ED7243731E200C9B5E4 /* XCRemoteSwiftPackageReference "socket" */,
+			);
 			productRefGroup = 1227E1E9242E102E00D95B05 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,6 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12CB3EDC243733A400C9B5E4 /* SocketIOManager.swift in Sources */,
 				5BF21350242E1370009AEED4 /* Accelerometer.swift in Sources */,
 				1227E1F0242E102E00D95B05 /* ViewController.swift in Sources */,
 				1227E1EC242E102E00D95B05 /* AppDelegate.swift in Sources */,
@@ -338,6 +358,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		12CB3ED7243731E200C9B5E4 /* XCRemoteSwiftPackageReference "socket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		12CB3ED8243731E200C9B5E4 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 12CB3ED7243731E200C9B5E4 /* XCRemoteSwiftPackageReference "socket" */;
+			productName = SocketIO;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1227E1E0242E102E00D95B05 /* Project object */;
 }
