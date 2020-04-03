@@ -69,8 +69,13 @@ class ViewController: UIViewController, DataTransfer {
     // MARK: - Setup
     
     func setupSession() {
+        
         SocketIOManager.shared.socket.on(clientEvent: .connect) { (data, ask) in
             self.sessionState = .connected(String(describing: data))
+        }
+        
+        SocketIOManager.shared.socket.on(clientEvent: .disconnect) { (data, ask) in
+            self.sessionState = .notconnected
         }
     }
     
