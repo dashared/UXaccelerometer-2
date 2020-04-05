@@ -15,14 +15,14 @@ class SocketIOManager {
     
     static let shared = SocketIOManager()
 
-    private let manager = SocketManager(socketURL: URL(string: "localhost:8000")!, config: [.log(true), .compress])
+    private let manager = SocketManager(socketURL: URL(string: "http://cstore-a53b371c.localhost.run")!, config: [.log(true), .compress])
     
     var socket: SocketIOClient
     
     // MARK: - Init
     
     private init() {
-        socket = manager.socket(forNamespace: "/swift")
+        socket = manager.defaultSocket
     }
     
     // MARK: - Connection

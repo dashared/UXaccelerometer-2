@@ -107,7 +107,8 @@ class ViewController: UIViewController, DataTransfer {
     }
     
     func sendCoordinates() {
-        SocketIOManager.shared.socket.emit("coordinates", accelerometer.x, accelerometer.y, accelerometer.z)
+    
+        SocketIOManager.shared.socket.emit("coordinates", [accelerometer.x, accelerometer.y, accelerometer.z])
        
         updateLabels()
     }
