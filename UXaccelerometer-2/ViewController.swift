@@ -44,9 +44,6 @@ class ViewController: UIViewController, DataTransfer {
     
     // MARK: - Properties
     
-    var peerID: MCPeerID = MCPeerID(displayName: UIDevice.current.name)
-    var mcSession: MCSession?
-    var mcAdvertiserAssistant: MCAdvertiserAssistant?
     var accelerometer = Accelerometer.shared
     
     var sessionState: SessionState = .notconnected {
@@ -72,17 +69,20 @@ class ViewController: UIViewController, DataTransfer {
     // MARK: - Setup
     
     func setupSession() {
-        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
-        mcSession?.delegate = self
         
-        mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: Constants.serviceType, discoveryInfo: nil, session: self.mcSession!)
+        SocketIOManager.shared.socket.on(clientEvent: .connect) { (data, ask) in
+            self.sessionState = .connected(String(describing: data))
+        }
+        
+        SocketIOManager.shared.socket.on(clientEvent: .disconnect) { (data, ask) in
+            self.sessionState = .notconnected
+        }
     }
     
     func setupNavigationBar() {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: UIConstants.host, style: .plain, target: self, action: #selector(hostSession))
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: UIConstants.join, style: .plain, target: self, action: #selector(joinSession))
     }
     
     func setupState() {
@@ -107,14 +107,9 @@ class ViewController: UIViewController, DataTransfer {
     }
     
     func sendCoordinates() {
-        if mcSession!.connectedPeers.count > 0 {
-            do {
-                let data = Data(accelerometer.convertToString().utf8)
-                try mcSession!.send(data, toPeers: mcSession!.connectedPeers, with: .reliable)
-            } catch {
-                print("Error connecting...")
-            }
-        }
+    
+        SocketIOManager.shared.socket.emit("coordinates", [accelerometer.x, accelerometer.y, accelerometer.z])
+       
         updateLabels()
     }
     
@@ -152,73 +147,16 @@ class ViewController: UIViewController, DataTransfer {
         case .notconnected:
             navigationItem.rightBarButtonItem?.title = UIConstants.stopHosting
             sessionState = .hosting
-            mcAdvertiserAssistant?.start()
+            SocketIOManager.shared.establichConnection()
         default:
             navigationItem.rightBarButtonItem?.title = UIConstants.host
             sessionState = .notconnected
-            mcAdvertiserAssistant?.stop()
+            SocketIOManager.shared.closeConnection()
         }
     }
 
-    @objc func joinSession() {
-        guard let session = mcSession else { return }
-        
-        let mcBrowser = MCBrowserViewController(serviceType: Constants.serviceType, session: session)
-        mcBrowser.delegate = self
-        self.present(mcBrowser, animated: true, completion: nil)
-    }
 }
 
-// MARK: - MCSessionDelegate
-
-extension ViewController: MCSessionDelegate {
-    
-    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        switch state {
-        case MCSessionState.connected:
-            sessionState = .connected(peerID.displayName)
-            print("Connected: \(peerID.displayName)")
-            
-        case MCSessionState.connecting:
-            print("Connecting: \(peerID.displayName)")
-            
-        default:
-            sessionState = .notconnected
-            print("Not Connected")
-        }
-    }
-    
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        /// just for debug of sending data
-        print(String(data: data, encoding: .utf8) ?? "error")
-    }
-    
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
-        
-    }
-
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
-        
-    }
-    
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        
-    }
-    
-}
-
-// MARK: - MCBrowserViewControllerDelegate
-
-extension ViewController: MCBrowserViewControllerDelegate {
-    
-    func browserViewControllerDidFinish(_ browserViewController: MCBrowserViewController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func browserViewControllerWasCancelled(_ browserViewController: MCBrowserViewController) {
-        dismiss(animated: true, completion: nil)
-    }
-}
 
 // MARK: - Constants
 
@@ -232,9 +170,8 @@ extension ViewController {
         static let tapToStart = "Tap to start"
         static let tapToStop = "Tap to stop"
         
-        static let host = "Host"
+        static let host = "Connect"
         static let stopHosting = "Stop"
-        static let join = "Join"
         
         static let noOneIsAround = "No one is around"
         static let connecting = "Connecting..."
