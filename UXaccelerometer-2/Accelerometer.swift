@@ -28,21 +28,18 @@ class Accelerometer {
     
     func startAccelerometers() {
        if self.motion.isAccelerometerAvailable {
-        self.motion.accelerometerUpdateInterval = self.interval
-          self.motion.startAccelerometerUpdates()
-
-          self.timer = Timer(fire: Date(), interval: self.interval,
-                repeats: true, block: { (timer) in
-             if let data = self.motion.accelerometerData {
+        
+        self.motion.accelerometerUpdateInterval = interval
+        
+        self.motion.startAccelerometerUpdates(to: OperationQueue.main) { (data, err) in
+            if let data = data {
                 self.x = data.acceleration.x
                 self.y = data.acceleration.y
                 self.z = data.acceleration.z
                 self.controller?.sendCoordinates()
-             }
-          })
-
-        RunLoop.current.add(self.timer!, forMode: .default)
-       }
+            }
+        }
+        }
     }
     
     func stopAccelerometer() {

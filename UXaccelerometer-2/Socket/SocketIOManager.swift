@@ -15,7 +15,8 @@ class SocketIOManager {
     
     static let shared = SocketIOManager()
 
-    private let manager = SocketManager(socketURL: URL(string: "http://cstore-a53b371c.localhost.run")!, config: [.log(true), .compress])
+    // Modify this url to connect to local host
+    private let manager = SocketManager(socketURL: URL(string: "http://cstore-af518b0d.localhost.run")!, config: [.log(true), .compress])
     
     var socket: SocketIOClient
     
